@@ -1,0 +1,61 @@
+
+https://clickhouse.tech/docs/ru/sql-reference/statements/select/
+
+1.
+Правило : Timelog (см описание в Джире)
+Запрос в БД:
+1) Получаем общее кол-во запросов по контретному link_id за интервал времени date
+   all = SELECT count(*) FROM platform_raw.tch  WHERE link_id = 10 AND date BETWEEN '2021-01-01' AND '2021-03-01'
+
+2) Получаем количество хороших запросов
+   cl = SELECT count(*) FROM platform_raw.tch WHERE link_id = 10 AND date BETWEEN '2021-01-01' AND '2021-03-01' AND minus(time_interval_2, time_interval_1) < 10
+
+Расчет:
+   bed = (all - cl) * 100 / all (%)
+   interval = 100 - 20 = 80 (%)
+   if bad < 20 {
+      res = (bad - 20) * 100 / interval
+   }
+
+
+2. iOS/Macos
+
+SELECT  count(*)
+FROM platform_raw.tch
+WHERE link_id = 10 AND
+      date BETWEEN '2021-01-01' AND '2021-03-01' AND
+      platform_name IN ('iPadOS', 'macOS', 'iOS', 'Mac OS X')
+
+
+3. Desktop
+
+SELECT  count(*)
+FROM platform_raw.tch
+WHERE link_id = 10 AND
+      date BETWEEN '2021-01-01' AND '2021-03-01' AND
+      is_mobile = 0
+
+4. Headless
+
+SELECT  count(*)
+FROM platform_raw.tch
+WHERE link_id = 10 AND
+      date BETWEEN '2021-01-01' AND '2021-03-01' AND
+      is_headless = 1
+
+5. Iframe
+
+SELECT  count(*)
+FROM platform_raw.tch
+WHERE link_id = 10 AND
+      date BETWEEN '2021-01-01' AND '2021-03-01' AND
+      is_iframe = 1
+
+6. CaptchaReactio
+
+SELECT  count(*)
+FROM platform_raw.tch
+WHERE link_id = 10 AND
+      date BETWEEN '2021-01-01' AND '2021-03-01' AND
+      captcha_reaction = 1 AND captcha_solved = 0
+
