@@ -14,7 +14,53 @@ func main() {
 
 	//jsonUnmarshal()
 
-	jsonUnmarshalMAP()
+	//jsonUnmarshalMAP()
+
+	startUnmarshal()
+}
+
+// =====================
+
+/*
+json для проекта collector
+{
+"subscription": {
+				"endpoint" : "https://updates.push.services.mozilla.com/wpush/v2/gAAAAABgdcO2M-ZPMHQNI5WDGRmrlnD5y9aLedXnAwU82hcP_JikOfIzFvzHOsWN9DghBO-uDhObwvgMGvp2E_WpJVue2RfJYuKm9U7xaInqRUpvgHXijpxoIYI7nnOTx0Hy_4uoibCzp84SBqzTSBhgsciM-0D5qiDfeSItwgLSzs1d_EVQaoE",
+				"keys"     : {
+								"auth"   : "B3MoFQ7nwCMOV2q7xl6qQg",
+								"p256dh" : "BOxJMNmne1-BxOqjhoCHEAZ7VLaZzUJpwA4LJclnRqYxzWH-Wr7-rkhHqvpcPMUwxM2uYMUsgWx7rq5iEovKrGY"
+							}
+				}
+}
+*/
+
+func startUnmarshal() {
+	data := []byte(`
+{
+	"key": "body key string"
+}`)
+
+	resp, err := getRequest(data)
+	if err != nil {
+		fmt.Println("error unmarshal: ", err.Error())
+		return
+	}
+
+	fmt.Println(resp)
+}
+
+type DateRequest struct {
+	Key string `json:"key"`
+}
+
+func getRequest(body []byte) (DateRequest, error) {
+	var d DateRequest
+	err := json.Unmarshal(body, &d)
+	if err != nil {
+		return d, err
+	}
+
+	return d, nil
 }
 
 // ===== jsonUnmarshalMAP =========================================

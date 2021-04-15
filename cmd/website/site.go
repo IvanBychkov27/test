@@ -68,7 +68,7 @@ func createSnippet(w http.ResponseWriter, r *http.Request) {
 		// Удаляем все значения из заголовка "Cache-Control".
 		//w.Header().Del("Cache-Control")
 
-		// Получаем первое значение из заголовка "Cache-Control".
+		//Получаем первое значение из заголовка "Cache-Control".
 		//w.Header().Get("Cache-Control")
 
 	}
