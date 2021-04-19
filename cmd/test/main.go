@@ -22,7 +22,22 @@ func main() {
 
 	//workIncome()
 
-	work18()
+	work19()
+}
+
+func work19() {
+	// feature/cors-access-control-allow-headers
+	// rw.Header().Add("Access-Control-Allow-Headers", "*")
+
+	m := make(map[string]struct{})
+	m["a"] = struct{}{}
+	fmt.Println(m)
+
+	if len(m) > 0 {
+		_, ok := m["a"]
+		fmt.Println("len(m) > 0  ok =", ok)
+	}
+
 }
 
 // =======CAP добавление и удаление ================================
