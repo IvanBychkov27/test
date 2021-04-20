@@ -26,17 +26,20 @@ func main() {
 }
 
 func work19() {
-	// feature/cors-access-control-allow-headers
-	// rw.Header().Add("Access-Control-Allow-Headers", "*")
+	a := make([]int, 0, 1024)
+	var i *int
 
-	m := make(map[string]struct{})
-	m["a"] = struct{}{}
-	fmt.Println(m)
+	k := 2
+	i = &k
 
-	if len(m) > 0 {
-		_, ok := m["a"]
-		fmt.Println("len(m) > 0  ok =", ok)
-	}
+	a = append(a, *i)
+
+	fmt.Println("a =", a)
+
+	a = make([]int, 0, 1024)
+	//a = nil
+
+	fmt.Println("a =", a, len(a), cap(a))
 
 }
 
