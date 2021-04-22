@@ -26,20 +26,24 @@ func main() {
 }
 
 func work19() {
-	a := make([]int, 0, 1024)
-	var i *int
 
-	k := 2
-	i = &k
+	//s := "-12:00"
+	//s := "+12:00"
+	s := "00:00"
 
-	a = append(a, *i)
+	//n := 3
+	//if len(s) == 5 {
+	//	n = 2
+	//}
 
-	fmt.Println("a =", a)
+	//n := strings.Index(s, ":")
 
-	a = make([]int, 0, 1024)
-	//a = nil
-
-	fmt.Println("a =", a, len(a), cap(a))
+	i, err := strconv.Atoi(s[:strings.Index(s, ":")])
+	if err != nil {
+		fmt.Println("s = ", s, " err: ", err.Error())
+		return
+	}
+	fmt.Println("s = ", s, "  i = ", i)
 
 }
 
