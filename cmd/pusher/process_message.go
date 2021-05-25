@@ -89,6 +89,8 @@ func (p *PusherW) processMessage(msg *Message) error {
 		p.logger.Error("error close body", zap.Error(err))
 	}
 
+	fmt.Println("respBody", string(respBody))
+
 	if resp.StatusCode != http.StatusOK {
 		return fmt.Errorf("unexptected status code %d", resp.StatusCode)
 	}

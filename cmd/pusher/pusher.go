@@ -64,9 +64,9 @@ func main() {
 		maxNumberOfMessages: defaultMaxNumberOfMessages,
 		queueURL:            queueCfg.URL,
 		//logger:              logger,
-		messages: make(chan *Message, messageChanCap),
-		//vapidPublic:         Public,
-		//vapidPrivate:        Private,
+		messages:     make(chan *Message, messageChanCap),
+		vapidPublic:  "BInoMaOJqoKRESoKZTYxvil42_buYBUYoBuxs_XFxC83LCXP5_32zzZCPIU5PDrE16-9Gho9Q2zIwO2DMHTw4qA",
+		vapidPrivate: "mmiyQg5r2OdGh6Y92GYAbUs8D7lMrLN19cThsk34Wcs",
 	}
 
 	creds := credentials.NewStaticCredentials(queueCfg.Key, queueCfg.Secret, "")

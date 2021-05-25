@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "grpc/api";
+
+message ManData {
+  int64 ip = 1;
+  string name = 2;
+}
+
+message ManRequest {
+  string addr = 1;
+  string tel = 2;
+}
+
+service Accountant {
+  rpc GetMan (ManData) returns (ManRequest) {}
+}

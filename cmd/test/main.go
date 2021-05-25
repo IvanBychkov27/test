@@ -2,8 +2,10 @@ package main
 
 import (
 	crypto "crypto/rand"
+	"crypto/sha1"
 	"encoding/base64"
 	"fmt"
+	"github.com/beevik/etree"
 	"github.com/fatih/color"
 	"math"
 	"math/big"
@@ -19,31 +21,243 @@ type myData struct {
 }
 
 func main() {
-
 	//workIncome()
+	//n := 90
+	//b := []int{5, 10, 20, 30, 40, 50, 60, 70, 80, 90}
+	//w1 := work22(b, n)
+	//w2 := work22_my(b, n)
+	//fmt.Println(w1)
+	//fmt.Println(w2)
 
-	work19()
+	work25()
+
+}
+
+func work25() {
+	wrapLinkCDNDomain := `https://cdnspace.io,https://v2.cdnspace.net`
+	wrapLinkCDNPrefix := `https://adplat.sfo2.cdn.digitaloceanspaces.com,https://apimg.fra1.cdn.digitaloceanspaces.com`
+
+	link := `111`
+	//link := `https://adplat.sfo2.cdn.digitaloceanspaces.com/123/test`
+	//link := `https://apimg.fra1.cdn.digitaloceanspaces.com/456/new`
+
+	//domain := getWrapLinkCDNs(wrapLinkCDNDomain)
+	//prefix := getWrapLinkCDNs(wrapLinkCDNPrefix)
+
+	link = wrapImageLinkCDN(link, getWrapLinkCDNs(wrapLinkCDNDomain), getWrapLinkCDNs(wrapLinkCDNPrefix))
+
+	fmt.Println(link)
+
+}
+
+// см.: binder/pkg/selfserve/get_bids
+func wrapImageLinkCDN(link string, domain, prefix []string) string {
+	if len(domain) == 0 || len(prefix) == 0 || len(domain) != len(prefix) {
+		return link
+	}
+
+	for i, pref := range prefix {
+		if strings.HasPrefix(link, pref) {
+			link = domain[i] + link[len(pref):]
+			return link
+		}
+	}
+
+	return link
+}
+
+func getWrapLinkCDNs(link string) []string {
+	linkCDNs := []string{}
+	if link == "" {
+		return nil
+	}
+	for _, linkCDN := range strings.Split(link, ",") {
+		linkCDN = strings.TrimSpace(linkCDN)
+		if linkCDN == "" {
+			continue
+		}
+		linkCDNs = append(linkCDNs, linkCDN)
+	}
+	return linkCDNs
+}
+
+func work24() {
+
+	uniqueCapIDData := []byte("109.194.11.58")
+	uniqueCapID := fmt.Sprintf("%x", sha1.Sum(uniqueCapIDData))
+
+	fmt.Println(uniqueCapID)
+}
+
+func work23() {
+	//resp := `
+	//	<?xml version="1.0" encoding="UTF-8"?>
+	//	<result>
+	//	<link bid="0.000004" url="http://xml.hotmaracas.com/click?i=e5L6KneAjGk_0" pixel="http://xml.hotmaracas.com/pixel?i=e5L6KneAjGk_0" caption="title of push"/>
+	//	</result>
+	//	`
+	resp := `
+        <link bid="0.000006" url="http://xml.hotmaracas.com/click?i=e5L6KneAjGk_6" pixel="http://xml.hotmaracas.com/pixel?i=e5L6KneAjGk_6" caption="title of push6"/>
+		<link bid="0.000004" url="http://xml.hotmaracas.com/click?i=e5L6KneAjGk_0" pixel="http://xml.hotmaracas.com/pixel?i=e5L6KneAjGk_0" caption="title of push"/>
+		<link bid="0.000005" url="http://xml.hotmaracas.com/click?i=e5L6KneAjGk_5" pixel="http://xml.hotmaracas.com/pixel?i=e5L6KneAjGk_5" caption="title of push5"/>
+		`
+	body := []byte(resp)
+
+	document := etree.NewDocument()
+	err := document.ReadFromBytes(body)
+	if err != nil {
+		fmt.Println("error etree: ", err.Error())
+	}
+
+	var elements []*etree.Element
+	var root *etree.Element
+
+	root = document.Root()
+
+	elements = append(elements, root)
+
+	for _, item := range elements {
+		fmt.Println("bid     = ", item.SelectAttr("bid").Value)
+		//elem := item.SelectElement("bid")
+		//fmt.Println(elem.Text())
+	}
+
+	fmt.Println()
+	//fmt.Println(elements)
+
+	fmt.Println("url     = ", root.SelectAttr("url").Value)
+	fmt.Println("bid     = ", root.SelectAttr("bid").Value)
+	fmt.Println("pixel   = ", root.SelectAttr("pixel").Value)
+	fmt.Println("caption = ", root.SelectAttr("caption").Value)
+
+}
+
+//======================================================
+// бинарный поиск - test
+func work22(b []int, n int) int {
+	return sort.SearchInts(b, n)
+}
+
+func work22_my(b []int, n int) int {
+	res := 0
+	for i, v := range b {
+		if v >= n {
+			res = i
+			break
+		}
+	}
+	return res
+}
+
+func work21() {
+	var count int = -3
+	address := []string{"127.0.0.1:2100", "1.2.3.4:3000", "10.20.30.40:4000", "100.200.230.240:5000"}
+	lenAddr := len(address)
+	tic := time.NewTicker(time.Second * 1)
+	for {
+		dif := count % lenAddr
+		if dif < 0 {
+			dif *= -1
+		}
+		fmt.Println(address[dif])
+		fmt.Println(dif)
+		count++
+		<-tic.C
+	}
+}
+
+// бинарный поиск
+func work20() {
+	//b := []int{5, 80, 20, 50, 40, 30, 60, 70, 10}
+	//sort.Ints(b)
+	//fmt.Println(sort.SearchInts(b, 50))
+
+	text := `0@a
+             2@b
+             3@c
+             4@dd
+             5@ee
+             6@ff
+             7@gg
+             8@hh
+             9@ii
+            10@jj`
+
+	weights, croppedLines := getMass(text)
+	fmt.Println(weights, " len =", len(weights))
+	fmt.Println(croppedLines, " len =", len(croppedLines))
+
+	// random
+	n := 12
+
+	fmt.Println("nn =", weights[len(weights)-1])
+
+	idx := sort.SearchInts(weights, n)
+	fmt.Println("ind =", idx)
+	fmt.Println("res =", croppedLines[idx])
+
+}
+
+func getMass(text string) ([]int, []string) {
+	var summ int
+
+	lines := strings.Split(text, "\n")
+
+	weights := make([]int, 0, len(lines))
+	croppedLines := make([]string, 0, len(lines))
+
+	for _, line := range lines {
+		line = strings.TrimSpace(line)
+		if line == "" {
+			continue
+		}
+		p := strings.Index(line, "@")
+		// если @ не найден, либо находится в первой или последней позиции строки - ошибка
+		if p == -1 || p == 0 || p == len(line) {
+			continue
+		}
+		weight, err := strconv.Atoi(line[0:p])
+		if err != nil || weight == 0 {
+			continue
+		}
+		summ += weight
+		weights = append(weights, summ)
+		croppedLines = append(croppedLines, line[p+1:])
+	}
+
+	return weights, croppedLines
 }
 
 func work19() {
+	d := map[int]int{1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1}
+	n := map[int]int{1: 2, 3: 2, 5: 2, 7: 2}
+	up, nov, del := 0, 0, 0
 
-	//s := "-12:00"
-	//s := "+12:00"
-	s := "00:00"
+	fmt.Println("d =", d)
+	fmt.Println("n =", n)
 
-	//n := 3
-	//if len(s) == 5 {
-	//	n = 2
-	//}
-
-	//n := strings.Index(s, ":")
-
-	i, err := strconv.Atoi(s[:strings.Index(s, ":")])
-	if err != nil {
-		fmt.Println("s = ", s, " err: ", err.Error())
-		return
+	for k, v := range n {
+		if _, ok := d[k]; !ok {
+			d[k] = v
+			nov++
+			continue
+		}
+		d[k] = v
+		up++
 	}
-	fmt.Println("s = ", s, "  i = ", i)
+	fmt.Println("----------------------------------------")
+	fmt.Println("d =", d)
+
+	for k := range d {
+		if _, ok := n[k]; !ok {
+			delete(d, k)
+			del++
+		}
+	}
+	fmt.Println("----------------------------------------")
+	fmt.Println("d =", d)
+	fmt.Println("----------------------------------------")
+	fmt.Println("Обнавлено:", up, " Добавлено новых: ", nov, " Удалено:", del, " Всего:", up+nov)
 
 }
 
@@ -320,19 +534,19 @@ func sortStruct(c []cad) []cad {
 }
 
 // ========================================
-func work13() {
-	var t = []byte{123, 34, 105, 100, 34, 58, 34, 84, 69, 83, 84, 34, 44, 34, 104, 111, 117, 114, 34, 58, 55, 55, 55, 44, 34, 99, 111, 117, 110, 116, 114, 121, 34, 58, 34, 82, 117, 115, 34, 44, 34, 114, 95, 99, 108, 105, 99, 107, 34, 58, 102, 97, 108, 115, 101, 44, 34, 114, 95, 105, 109, 112, 34, 58, 102, 97, 108, 115, 101, 44, 34, 114, 95, 118, 105, 101, 119, 34, 58, 102, 97, 108, 115, 101, 44, 34, 97, 100, 118, 101, 114, 116, 105, 115, 101, 114, 95, 99, 97, 115, 104, 98, 97, 99, 107, 34, 58, 48, 125}
-	fmt.Println(string(t))
-
-	text := "123 34 105 100 34 58 34 84 69 83 84 34 44 34 104 111 117 114 34 58 55 55 55 44 34 99 111 117 110 116 114 121 34 58 34 82 117 115 34 44 34 114 95 99 108 105 99 107 34 58 102 97 108 115 101 44 34 114 95 105 109 112 34 58 102 97 108 115 101 44 34 114 95 118 105 101 119 34 58 102 97 108 115 101 44 34 97 100 118 101 114 116 105 115 101 114 95 99 97 115 104 98 97 99 107 34 58 48 125"
-	ss := strings.Split(text, " ")
-	res := ""
-	for _, s := range ss {
-		i, _ := strconv.Atoi(s)
-		res += string(i)
-	}
-	fmt.Println(res)
-}
+//func work13() {
+//	var t = []byte{123, 34, 105, 100, 34, 58, 34, 84, 69, 83, 84, 34, 44, 34, 104, 111, 117, 114, 34, 58, 55, 55, 55, 44, 34, 99, 111, 117, 110, 116, 114, 121, 34, 58, 34, 82, 117, 115, 34, 44, 34, 114, 95, 99, 108, 105, 99, 107, 34, 58, 102, 97, 108, 115, 101, 44, 34, 114, 95, 105, 109, 112, 34, 58, 102, 97, 108, 115, 101, 44, 34, 114, 95, 118, 105, 101, 119, 34, 58, 102, 97, 108, 115, 101, 44, 34, 97, 100, 118, 101, 114, 116, 105, 115, 101, 114, 95, 99, 97, 115, 104, 98, 97, 99, 107, 34, 58, 48, 125}
+//	fmt.Println(string(t))
+//
+//	text := "123 34 105 100 34 58 34 84 69 83 84 34 44 34 104 111 117 114 34 58 55 55 55 44 34 99 111 117 110 116 114 121 34 58 34 82 117 115 34 44 34 114 95 99 108 105 99 107 34 58 102 97 108 115 101 44 34 114 95 105 109 112 34 58 102 97 108 115 101 44 34 114 95 118 105 101 119 34 58 102 97 108 115 101 44 34 97 100 118 101 114 116 105 115 101 114 95 99 97 115 104 98 97 99 107 34 58 48 125"
+//	ss := strings.Split(text, " ")
+//	res := ""
+//	for _, s := range ss {
+//		i, _ := strconv.Atoi(s)
+//		res += string(i)
+//	}
+//	fmt.Println(res)
+//}
 
 //======================================
 func work12() {

@@ -1,0 +1,399 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "/api";
+
+message BinderRequest {
+    string name = 1;
+}
+
+message CachejobResponse {
+    string data  = 1;
+    string data2 = 2;
+}
+
+message CachejobDSP {
+    repeated DSP data1 = 1;
+    repeated DSP data2 = 2;
+}
+
+message CachejobDPL {
+    repeated DPL data1 = 1;
+    repeated DPL data2 = 2;
+}
+
+message CachejobDefaultDPL {
+    repeated DefaultDPL data = 1;
+}
+
+message CachejobCampaign {
+    repeated Campaign data = 1;
+}
+
+message CachejobUser {
+    repeated User data = 1;
+}
+
+message CachejobEndpoint {
+    repeated Endpoint data = 1;
+}
+
+message CachejobFastFilter {
+    repeated FastFilter data = 1;
+}
+
+message CachejobWidgets {
+    repeated Widgets data = 1;
+}
+
+message CachejobOptlists {
+    repeated Optlists data = 1;
+}
+
+message CachejobPing {
+    string data = 1;
+}
+
+message CachejobToken {
+    repeated string data = 1;
+}
+
+service Cachejob {
+    rpc GetDSP (BinderRequest) returns (CachejobDSP) {}
+    rpc GetDPL (BinderRequest) returns (CachejobDPL) {}
+    rpc GetDefaultDPL (BinderRequest) returns (CachejobDefaultDPL) {}
+    rpc GetCampaign (BinderRequest) returns (CachejobCampaign) {}
+    rpc GetUser (BinderRequest) returns (CachejobUser) {}
+    rpc GetEndpoint (BinderRequest) returns (CachejobEndpoint) {}
+    rpc GetFastFilter (BinderRequest) returns (CachejobFastFilter) {}
+    rpc GetWidgets (BinderRequest) returns (CachejobWidgets) {}
+    rpc GetForeignSIDOptlists (BinderRequest) returns (CachejobOptlists) {}
+    rpc GetIPOptlists (BinderRequest) returns (CachejobOptlists) {}
+    rpc GetISPOptlists (BinderRequest) returns (CachejobOptlists) {}
+    rpc GetSIDOptlists (BinderRequest) returns (CachejobOptlists) {}
+    rpc PingCachejob (BinderRequest) returns (CachejobPing) {}
+    rpc GetTokens (BinderRequest) returns (CachejobToken) {}
+}
+
+message DSP {
+    int64  ID                                      = 1;
+   	int64  NetworkID                               = 2;
+   	string URL                                     = 3;
+   	int64  PaymentTarget                           = 4;
+   	int64  PaymentType                             = 5;
+   	int64  Rate                                    = 6;
+   	int64  Method                                  = 7;
+   	int64  RequestType                             = 8;
+   	int64  ResponseType                            = 9;
+   	int64  AdvertiserID                            = 10;
+   	string CustomResponseSettings                  = 11;
+   	int64  TrafficType                             = 12;
+   	int64  AdvertiserRate                          = 13;
+   	repeated int64 Tags                            = 14;
+   	repeated int64 RulesToUsersAllow               = 15;
+   	int64  RulesToUsersAllowType                   = 16;
+   	repeated int64 RulesToUsersDeny                = 17;
+   	int64  RulesToUsersDenyType                    = 18;
+   	repeated int64 RulesToEndpointsAllow           = 19;
+   	int64  RulesToEndpointsAllowType               = 20;
+   	repeated int64 RulesToEndpointsDeny            = 21;
+   	int64  RulesToEndpointsDenyType                = 22;
+   	repeated int64 AdvertiserTags                  = 23;
+   	repeated int64 AdvertiserRulesToUsersAllow     = 24;
+   	int64  AdvertiserRulesToUsersAllowType         = 25;
+   	repeated int64 AdvertiserRulesToUsersDeny      = 26;
+   	int64  AdvertiserRulesToUsersDenyType          = 27;
+   	repeated int64 AdvertiserRulesToEndpointsAllow = 28;
+   	int64  AdvertiserRulesToEndpointsAllowType     = 29;
+   	repeated int64 AdvertiserRulesToEndpointsDeny  = 30;
+   	int64  AdvertiserRulesToEndpointsDenyType      = 31;
+   	bool   CallNURL                                = 32;
+   	int64  SubscriberAgeMin                        = 33;
+   	int64  SubscriberAgeMax                        = 34;
+   	int64  RedirectType                            = 35;
+   	int64  GeoFilterType                           = 36;
+   	string GeoFilterMapString                      = 37;
+   	string NURLEvent                               = 38;
+   	int64  RequestFrequency                        = 39;
+   	string FastFilterSourceIDStr                   = 40;
+   	string FastFilterSourceIDEncodedStr            = 41;
+   	bool   CheckIPMismatch                         = 42;
+   	bool   CheckUAMismatch                         = 43;
+   	bool   StopOnDClick                            = 44;
+   	int64  FilterPlatform                          = 45;
+   	double ExchangeRate                            = 46;
+   	int64  DatacenterID                            = 47;
+   	int64  FastFilterSourceIDFilterType            = 48;
+   	int64  DplID                                   = 49;
+   	string RequestOpenRTBExtBidRequest             = 50;
+   	string RequestOpenRTBExtImp                    = 51;
+   	bool   SendRefererHeader                       = 52;
+   	int64  CircuitBreakerLimit                     = 53;
+   	string RandomStarValues                        = 54;
+   	bool   OverrideAllReferrers                    = 55;
+   	string OverrideReferrerListStr                 = 56;
+   	int64  FFUserFilterType                        = 57;
+   	int64  FFEndpointFilterType                    = 58;
+   	int64  FFAdvertiserToPublisherFilterType       = 59;
+   	int64  FFAdvertiserToEndpointFilterType        = 60;
+   	bool   EscapeOpenRTBNativeRequest              = 61;
+   	int64  RateLimitMax                            = 62;
+   	bool   Strictly                                = 63;
+   	int64  MaxSourcesCount                         = 64;
+   	bool   Prepay                                  = 65;
+   	bool   ProcessDoubleEvent                      = 66;
+   	int64  TrafficQuality                          = 67;
+   	int64  ImpClickStrategy                        = 68;
+   	string OsDesktopJSONString                     = 69;
+   	string OsMobileJSONString                      = 70;
+   	string UaDesktopJSONString                     = 71;
+   	string UaMobileJSONString                      = 72;
+   	int64  DesktopOSFilterType                     = 73;
+   	int64  DesktopUAFilterType                     = 74;
+   	int64  MobileOSFilterType                      = 75;
+   	int64  MobileUAFilterType                      = 76;
+   	bool   CallWinURL                              = 77;
+}
+
+message DPL {
+    int64 ID = 1;
+    string D = 2;
+}
+
+message DefaultDPL {
+    int64 NetworkID = 1;
+   	int64 DPL0      = 2;
+   	int64 DPL1      = 3;
+   	int64 DPL2      = 4;
+   	int64 DPL3      = 5;
+   	int64 DPL4      = 6;
+   	int64 DPL5      = 7;
+   	int64 DPL6      = 8;
+   	int64 DPL7      = 9;
+   	int64 DPL8      = 10;
+   	int64 DPL9      = 11;
+}
+
+message Campaign {
+    int64 ID                                       = 1;
+    int64 UserID                                   = 2;
+    int64 NetworkID                                = 3;
+    int64 Cap                                      = 4;
+    string GeoJSONString                           = 5;
+    int64 GeoFilterType                            = 6;
+    int64 SpendStrategyType                        = 7;
+    int64 DailyBudget                              = 8;
+    int64 TotalBudget                              = 9;
+    int64 FilterISP                                = 10;
+    int64 FilterISPType                            = 11;
+    string Timezone                                = 12;
+    int64 FilterPlatforms                          = 13;
+    string OsDesktopJSONString                     = 14;
+    string OsMobileJSONString                      = 15;
+    string UaDesktopJSONString                     = 16;
+    string UaMobileJSONString                      = 17;
+    int64 OptListTypeIP                            = 18;
+    int64 OptListTypeSID                           = 19;
+    int64 OptListTypeExtraIP                       = 20;
+    int64 OptListTypeExtraSID                      = 21;
+    int64 OptListTypeExtraForeignSID               = 22;
+    int64 OptListTypeISP                           = 23;
+    int64 OptListTypeExtraISP                      = 24;
+    int64 DesktopOSFilterType                      = 25;
+    int64 DesktopUAFilterType                      = 26;
+    int64 MobileOSFilterType                       = 27;
+    int64 MobileUAFilterType                       = 28;
+    int64 AdvertiserRate                           = 29;
+    int64 CampaignRate                             = 30;
+    int64 ShaveClicks                              = 31;
+    int64 MinBalance                               = 32;
+    string FreezeRules                             = 33;
+    bool RejectIPMismatch                          = 34;
+    bool RejectUAMismatch                          = 35;
+    bool RejectCountryMismatch                     = 36;
+    repeated int64 Tags                            = 37;
+    repeated int64 RulesToUsersAllow               = 38;
+    int64 RulesToUsersAllowType                    = 39;
+    repeated int64 RulesToUsersDeny                = 40;
+    int64 RulesToUsersDenyType                     = 41;
+    repeated int64 RulesToEndpointsAllow           = 42;
+    int64 RulesToEndpointsAllowType                = 43;
+    repeated int64 RulesToEndpointsDeny            = 44;
+    int64 RulesToEndpointsDenyType                 = 45;
+    repeated int64 AdvertiserTags                  = 46;
+    repeated int64 AdvertiserRulesToUsersAllow     = 47;
+    int64 AdvertiserRulesToUsersAllowType          = 48;
+    repeated int64 AdvertiserRulesToUsersDeny      = 49;
+    int64 AdvertiserRulesToUsersDenyType           = 50;
+    repeated int64 AdvertiserRulesToEndpointsAllow = 51;
+    int64 AdvertiserRulesToEndpointsAllowType      = 52;
+    repeated int64 AdvertiserRulesToEndpointsDeny  = 53;
+    int64 AdvertiserRulesToEndpointsDenyType       = 54;
+    bool HasOptlistIP                              = 55;
+    bool HasOptlistExtIP                           = 56;
+    bool HasOptlistSID                             = 57;
+    bool HasOptlistExtSID                          = 58;
+    bool HasOptlistISP                             = 59;
+    bool HasOptlistExtISP                          = 60;
+    bool HasOptlistExtForeignSID                   = 61;
+    int64 CreativeID                               = 62;
+    string CreativeURL                             = 63;
+    int64 CreativePrice                            = 64;
+    int64 CreativeType                             = 65;
+    int64 CreativeUserAgeMin                       = 66;
+    int64 CreativeUserAgeMax                       = 67;
+    int64 CreativeUserSex                          = 68;
+    string CreativeTitle                           = 69;
+    string CreativeDescription                     = 70;
+    string CreativeImage                           = 71;
+    string CreativeIcon                            = 72;
+    int64 CreativePaymentType                      = 73;
+    int64 CreativePaymentTarget                    = 74;
+    int64 TargetSubscriptionAgeFrom                = 75;
+    int64 TargetSubscriptionAgeTo                  = 76;
+    string FastFilterSourceIDStr                   = 77;
+    int64 FastFilterSourceIDFilterType             = 78;
+    int64 SaveForSST                               = 79;
+    int64 FFCampaignToPublisherFilterType          = 80;
+    int64 FFCampaignToEndpointFilterType           = 81;
+    int64 FFAdvertiserToPublisherFilterType        = 82;
+    int64 FFAdvertiserToEndpointFilterType         = 83;
+    bool Strictly                                  = 84;
+    double AdvertiserCashback                      = 85;
+    bool ProcessDoubleEvent                        = 86;
+    int64 TrafficQuality                           = 87;
+    int64 ImpClickStrategy                         = 88;
+    string LangTargetJSONString                    = 89;
+    int64 LangTargetFilterType                     = 90;
+}
+
+message User {
+    int64 ID                              = 1;
+    int64 NetworkID                       = 2;
+    int64 Rate                            = 3;
+    repeated int64 Tags                   = 4;
+    repeated int64 UsersTagsAllow         = 5;
+    int64 UsersTagsAllowType              = 6;
+    repeated int64 UsersTagsDeny          = 7;
+    int64 UsersTagsDenyType               = 8;
+    repeated int64 DspsTagsAllow          = 9;
+    int64 DspsTagsAllowType               = 10;
+    repeated int64 DspsTagsDeny           = 11;
+    int64 DspsTagsDenyType                = 12;
+    repeated int64 CampaignsTagsAllow     = 13;
+    int64 CampaignsTagsAllowType          = 14;
+    repeated int64 CampaignsTagsDeny      = 15;
+    int64 CampaignsTagsDenyType           = 16;
+    int64 FFToDSPFilterType               = 17;
+    int64 FFToUserFilterType              = 18;
+    int64 FFToCampaignFilterType          = 19;
+    double Cashback                       = 20;
+}
+
+message Endpoint {
+    int64 NetworkID                                 = 1;
+	int64 ID                                        = 2;
+	int64 SettingsRequestType                       = 3;
+	string QueryArgsString                          = 4;
+	int64 SettingsResponseType                      = 5;
+	bytes SettingsResponseTemplateItem              = 6;
+	bytes SettingsResponseTemplateResponse          = 7;
+	string Token                                    = 8;
+	int64 UserID                                    = 9;
+	int64 Rate                                      = 10;
+	int64 HiddenRate                                = 11;
+	int64 Shave                                     = 12;
+	int64 SessionStorage                            = 13;
+	int64 PaymentTarget                             = 14;
+	int64 PaymentType                               = 15;
+	int64 TrafficType                               = 16;
+	int64 Timeout                                   = 17;
+	int64 TTL                                       = 18;
+	double TrafficCheck                             = 19;
+	bytes SettingsResponseItemsJoinString           = 20;
+	repeated int64 Tags                             = 21;
+	repeated int64 UsersTagRulesAllow               = 22;
+	int64 UsersTagRulesAllowType                    = 23;
+	repeated int64 UsersTagRulesDeny                = 24;
+	int64 UsersTagRulesDenyType                     = 25;
+	repeated int64 DspsTagRulesAllow                = 26;
+	int64 DspsTagRulesAllowType                     = 27;
+	repeated int64 DspsTagRulesDeny                 = 28;
+	int64 DspsTagRulesDenyType                      = 29;
+	repeated int64 CampaignsTagRulesAllow           = 30;
+	int64 CampaignsTagRulesAllowType                = 31;
+	repeated int64 CampaignsTagRulesDeny            = 32;
+	int64 CampaignsTagRulesDenyType                 = 33;
+	string PassbackURL                              = 34;
+	string TrafficCheckURL                          = 35;
+	bytes HostClick                                 = 36;
+	bytes HostImp                                   = 37;
+	bytes HostView                                  = 38;
+	int64 Type                                      = 39;
+	int64 Destination                               = 40;
+	int64 FastFilterSourceIDFilterType              = 41;
+	string FastFilterSourceIDStr                    = 42;
+	int64 GeoFilterType                             = 43;
+	string GeoFilterMapStr                          = 44;
+	bool ProcessDoubleEvent                         = 45;
+	int64 DatacenterID                              = 46;
+	string StopWords                                = 47;
+	double CreativeCheckRate                        = 48;
+	double CreativeCheckLimit                       = 49;
+	string TrafficCheckNotifyURL                    = 50;
+	int64 FastFilterRefererFilterType               = 51;
+	string FastFilterRefererStr                     = 52;
+	bool OpenRTBNativeWrappedRequest                = 53;
+	int64 OpenRTBNativeAssetTypeIcon                = 54;
+	int64 OpenRTBNativeAssetTypeImage               = 55;
+	bool OverrideAllReferrers                       = 56;
+	string OverrideReferrersListText                = 57;
+	int64 OpenRTBTrackers                           = 58;
+	int64 RateLimitMax                              = 59;
+	int64 FastFilterUserFilterType                  = 60;
+	int64 FastFilterDSPFilterType                   = 61;
+	int64 FastFilterCampaignFilterType              = 62;
+	bool Sandbox                                    = 63;
+	bool Strictly                                   = 64;
+	bool ChargeReject                               = 65;
+	int64 TrafficQuality                            = 66;
+	int64 FilterPlatform                            = 67;
+	string OsDesktopJSONString                      = 68;
+	string OsMobileJSONString                       = 69;
+	string UaDesktopJSONString                      = 70;
+	string UaMobileJSONString                       = 71;
+	int64 DesktopOSFilterType                       = 72;
+	int64 DesktopUAFilterType                       = 73;
+	int64 MobileOSFilterType                        = 74;
+	int64 MobileUAFilterType                        = 75;
+	bool IgnoreDSPff                                = 76;
+}
+
+message FastFilter {
+    string Name1  = 1;
+	int64 ID1     = 2;
+	string Name2  = 3;
+	int64 ID2     = 4;
+}
+
+message Widgets {
+    int64 ID           = 1;
+	int64 Type         = 2;
+	int64 NetworkID    = 3;
+	string Token       = 4;
+	string BinderToken = 5;
+	string Settings    = 6;
+	int64 CountAds     = 7;
+	int64 UserID       = 8;
+	int64 ZoneID       = 9;
+	string Domains     = 10;
+}
+
+message Optlists {
+    string Value      = 1;
+	int64 CampaignID  = 2;
+	bool IsExtra      = 3;
+	int64 PublisherID = 4;
+}
+

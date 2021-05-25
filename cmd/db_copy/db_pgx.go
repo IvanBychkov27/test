@@ -17,9 +17,10 @@ func main() {
 		return
 	}
 	err = db.Ping(ctx)
-	if err == nil {
-		fmt.Println("connecting to postgres...")
+	if err != nil {
+		fmt.Println("error ping postgres db: ", err.Error())
 	}
+	fmt.Println("connecting to postgres...")
 
 	//writeOk := false
 	writeOk := true
