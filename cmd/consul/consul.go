@@ -25,7 +25,6 @@ networks/10002/tarantool/servers
     "192.168.1.49:13401",
 	"192.168.1.49:13402"
 ]
-
 */
 
 package main
@@ -39,36 +38,36 @@ import (
 	"strings"
 )
 
-// http://109.206.162.136:82/api/v1/query?query=node_filesystem_avail_bytes{mountpoint=~"/|/etc/hostname",instance=~"192.168.1.68:9100|192.168.1.69:9100"}/node_filesystem_size_bytes{mountpoint=~"/|/etc/hostname",instance=~"192.168.1.68:9100|192.168.1.69:9100"}*100
-// Authorization: Basic c2VydmljZV91c2VyOlFZMmN2aGNwQ0tQQm5Vd3RQZU5KVXBrQw==
-
-type Data struct {
-	IP    []string
-	IPMem map[string]float64
-}
-
 func main() {
-	networkData := map[string]Data{}
+	networkData := map[string]map[string]float64{}
 
 	consulRequestBody := getConsul(`http://127.0.0.1:8500/v1/kv/networks/?raw=1&recurse=1`)
 	networks := getNetworks(consulRequestBody)
 
 	for _, network := range networks {
-		url := `http://127.0.0.1:8500/v1/kv/` + network + `?raw`
-		networkData[network] = Data{IP: getIPs(getConsul(url))}
+		body := requestInPrometheus(urlQuery(network)) // получаем данные из prometheus
+		networkData[network] = parseDataPrometheusIPMem(body)
 	}
+	dataProcessing(networkData)
+	fmt.Println(networkData)
 
-	urlProm := tntQuerys(networkData)
-	for _, url := range urlProm {
-		fmt.Println()
-		body := requestInPrometheus(url)
-		fmt.Println(string(body))
-		fmt.Println()
+	respConsul := setThrottleInConsul(`http://127.0.0.1:8500/v1/kv/networks/1/tarantool/throttle`, "20")
+	fmt.Println(string(respConsul))
 
-		fmt.Println(parseDataPrometheusIPMem(body))
+}
 
+// формирование url запроса для prometheus
+func urlQuery(network string) string {
+	url := `http://127.0.0.1:8500/v1/kv/` + network + `?raw`
+	ips := ""
+	for _, d := range getIPs(getConsul(url)) {
+		ips += d + ":9100|"
 	}
-
+	if len(ips) == 0 {
+		return ""
+	}
+	ips = ips[:len(ips)-1]
+	return fmt.Sprintf(`http://109.206.162.136:82/api/v1/query?query=node_filesystem_avail_bytes{mountpoint=~"/|/etc/hostname",instance=~"%s"}/node_filesystem_size_bytes{mountpoint=~"/|/etc/hostname",instance=~"%s"}*100`, ips, ips)
 }
 
 // получение списка всех networks
@@ -86,7 +85,7 @@ func getNetworks(body []byte) []string {
 
 	networks := make([]string, 0, len(consuls))
 	for _, consul := range consuls {
-		if consul.Network == "" {
+		if consul.Network == "" || !strings.Contains(consul.Network, "servers") {
 			continue
 		}
 		networks = append(networks, consul.Network)
@@ -94,7 +93,7 @@ func getNetworks(body []byte) []string {
 	return networks
 }
 
-// получение тела ответа от консула с информацией
+// получение информации от консула
 func getConsul(url string) []byte {
 	resp, err := http.Get(url)
 	if err != nil {
@@ -112,7 +111,7 @@ func getConsul(url string) []byte {
 	return body
 }
 
-// получаем список уникальных ip без портов из ответа от Consula
+// получаем список уникальных ip без портов
 func getIPs(body []byte) []string {
 	ips := make([]string, 0)
 	err := json.Unmarshal(body, &ips)
@@ -137,23 +136,6 @@ func getIPs(body []byte) []string {
 	}
 
 	return ip
-}
-
-// получаем url запросы в prometheus
-func tntQuerys(networkData map[string]Data) []string {
-	urlQuerys := make([]string, 0, len(networkData))
-
-	for _, data := range networkData {
-		ips := ""
-		for _, d := range data.IP {
-			ips += d + ":9100|"
-		}
-		ips = ips[:len(ips)-1]
-		query := fmt.Sprintf(`http://109.206.162.136:82/api/v1/query?query=node_filesystem_avail_bytes{mountpoint=~"/|/etc/hostname",instance=~"%s"}/node_filesystem_size_bytes{mountpoint=~"/|/etc/hostname",instance=~"%s"}*100`, ips, ips)
-		urlQuerys = append(urlQuerys, query)
-	}
-
-	return urlQuerys
 }
 
 // запрс в Prometheus
@@ -217,4 +199,41 @@ func parseDataPrometheusIPMem(body []byte) map[string]float64 {
 	}
 
 	return ipMem
+}
+
+// обработка данных
+func dataProcessing(networkData map[string]map[string]float64) {
+	for _, network := range networkData {
+		var min float64 = 100
+		for _, mem := range network {
+			if mem < min {
+				min = mem
+			}
+		}
+		network["mem"] = min
+	}
+}
+
+// отправка значения throttle в consul
+func setThrottleInConsul(url, throttle string) []byte {
+	req, err := http.NewRequest("PUT", url, strings.NewReader(throttle))
+	if err != nil {
+		fmt.Println("error setThrottleInConsul in NewRequest:", err.Error())
+		return nil
+	}
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		fmt.Println("error setThrottleInConsul in DefaultClient:", err.Error())
+		return nil
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("error setThrottleInConsul read body:", err.Error())
+		return nil
+	}
+	defer resp.Body.Close()
+
+	return body
 }
