@@ -1,3 +1,33 @@
+/*
+1. Запустить Consul: consul agent -dev
+2. Открыть Consul: http://127.0.0.1:8500
+   и сосдать networks и value
+
+networks/1/tarantool/servers
+  [
+    "192.168.1.68:13401",
+    "192.168.1.68:13402",
+    "192.168.1.68:13403",
+    "192.168.1.69:13401",
+    "192.168.1.69:13402",
+    "192.168.1.69:13403",
+    "192.168.1.70:13401",
+    "192.168.1.70:13402",
+    "192.168.1.70:13403"
+]
+
+networks/10002/tarantool/servers
+[
+	"192.168.1.33:13401",
+	"192.168.1.33:13402",
+    "192.168.1.36:13401",
+	"192.168.1.36:13402",
+    "192.168.1.49:13401",
+	"192.168.1.49:13402"
+]
+
+*/
+
 package main
 
 import (
@@ -5,6 +35,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 	"strings"
 )
 
@@ -13,7 +44,7 @@ import (
 
 type Data struct {
 	IP    []string
-	Value int
+	IPMem map[string]float64
 }
 
 func main() {
@@ -26,12 +57,18 @@ func main() {
 		url := `http://127.0.0.1:8500/v1/kv/` + network + `?raw`
 		networkData[network] = Data{IP: getIPs(getConsul(url))}
 	}
-	//fmt.Println(tntQuerys(networkData))
 
 	urlProm := tntQuerys(networkData)
-	prometheusRequestBody := requestInPrometheus(urlProm[0])
+	for _, url := range urlProm {
+		fmt.Println()
+		body := requestInPrometheus(url)
+		fmt.Println(string(body))
+		fmt.Println()
 
-	fmt.Println(string(prometheusRequestBody))
+		fmt.Println(parseDataPrometheusIPMem(body))
+
+	}
+
 }
 
 // получение списка всех networks
@@ -142,4 +179,42 @@ func requestInPrometheus(url string) []byte {
 	defer resp.Body.Close()
 
 	return body
+}
+
+// парсим данные полученные от Prometheus и получаем значение свободного места на диске для каждого ip
+func parseDataPrometheusIPMem(body []byte) map[string]float64 {
+	ipMem := make(map[string]float64)
+
+	val := struct {
+		Data struct {
+			Result []struct {
+				Value  []interface{} `json:"value"`
+				Metric struct {
+					Instance string `json:"instance"`
+				} `json:"metric"`
+			} `json:"result"`
+		} `json:"data"`
+	}{}
+
+	err := json.Unmarshal(body, &val)
+	if err != nil {
+		fmt.Println("parseDataPrometheus, error unmarshal body", err.Error())
+		return nil
+	}
+
+	for _, res := range val.Data.Result {
+		data, ok := res.Value[1].(string)
+		if !ok {
+			continue
+		}
+		var mem float64
+		mem, err = strconv.ParseFloat(data, 64)
+		if err != nil {
+			continue
+		}
+
+		ipMem[res.Metric.Instance] = mem
+	}
+
+	return ipMem
 }
