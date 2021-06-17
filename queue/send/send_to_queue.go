@@ -44,7 +44,7 @@ func main() {
 		//Endpoint:  "https://updates.push.services.mozilla.com/wpush/v2/gAAAAABgdcO2M-ZPMHQNI5WDGRmrlnD5y9aLedXnAwU82hcP_JikOfIzFvzHOsWN9DghBO-uDhObwvgMGvp2E_WpJVue2RfJYuKm9U7xaInqRUpvgHXijpxoIYI7nnOTx0Hy_4uoibCzp84SBqzTSBhgsciM-0D5qiDfeSItwgLSzs1d_EVQaoE",
 		//KeyAuth:   "B3MoFQ7nwCMOV2q7xl6qQg",
 		//KeyP256DH: "BOxJMNmne1-BxOqjhoCHEAZ7VLaZzUJpwA4LJclnRqYxzWH-Wr7-rkhHqvpcPMUwxM2uYMUsgWx7rq5iEovKrGY",
-		IP: "0.0.0.1",
+		IP: "0.0.0.2",
 		//Body: "Message 03",
 	}
 
@@ -61,7 +61,7 @@ func main() {
 		MessageDeduplicationId:  nil,
 		MessageGroupId:          nil,
 		MessageSystemAttributes: nil,
-		QueueUrl:                aws.String("https://message-queue.api.cloud.yandex.net/b1g8fp34kitmv2q6kesr/dj6000000001pnig06ht/pusher-test"),
+		QueueUrl:                aws.String("https://message-queue.api.cloud.yandex.net/b1g8fp34kitmv2q6kesr/dj6000000001uq3i06ht/test"),
 	})
 	if err != nil {
 		log.Printf("error send message, %v", err)

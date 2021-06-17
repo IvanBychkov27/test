@@ -22,8 +22,8 @@ func main() {
 	}
 	fmt.Println("connecting to postgres...")
 
-	//writeOk := false
-	writeOk := true
+	writeOk := false
+	//writeOk := true
 	if writeOk {
 		dataColl := dataCollectors()
 		rows := inputRows(dataColl)
@@ -41,8 +41,8 @@ func main() {
 		fmt.Println("записано строк ", nRows)
 	}
 
-	//readOk := false
-	readOk := true
+	readOk := false
+	//readOk := true
 	if readOk {
 		var data []Collector
 		query := `SELECT * FROM collector01`
@@ -50,6 +50,19 @@ func main() {
 		chk(err)
 		printCar(data) // печать информации полученной из БД
 	}
+
+	// передаем массив в запрос
+	//arrayOk := false
+	arrayOk := true
+	if arrayOk {
+		var data []Collector
+		array := []int{2, 6, 30, 33}
+		query := `SELECT * FROM collector01 WHERE user_id = ANY($1) AND id != 163`
+		data, err = readDB_WhereArray(db, query, array) // читаем базу данных
+		chk(err)
+		printCar(data) // печать информации полученной из БД
+	}
+
 }
 
 type Collector struct {
@@ -105,6 +118,27 @@ func insert(db *pgx.Conn, c Collector) error {
 // чтение данных из БД
 func readDB(db *pgx.Conn, query string) ([]Collector, error) {
 	rows, err := db.Query(context.Background(), query)
+	if err != nil {
+		return nil, err
+	}
+	//defer rows.Close()
+	collectors := make([]Collector, 0)
+
+	for rows.Next() {
+		c := Collector{}
+		err = rows.Scan(&c.ID, &c.UserID, &c.Key, &c.TimeCreate, &c.IP, &c.UA)
+		if err != nil {
+			fmt.Println("error read rows", err)
+			continue
+		}
+		collectors = append(collectors, c)
+	}
+	return collectors, nil
+}
+
+// чтение данных из БД с выбором из массива
+func readDB_WhereArray(db *pgx.Conn, query string, arr []int) ([]Collector, error) {
+	rows, err := db.Query(context.Background(), query, arr)
 	if err != nil {
 		return nil, err
 	}

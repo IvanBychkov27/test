@@ -41,7 +41,7 @@ func main() {
 
 	q := sqs.New(sess)
 
-	queueUrl := "https://message-queue.api.cloud.yandex.net/b1g8fp34kitmv2q6kesr/dj6000000001pnig06ht/pusher-test"
+	queueUrl := "https://message-queue.api.cloud.yandex.net/b1g8fp34kitmv2q6kesr/dj6000000001uq3i06ht/test"
 	input := &sqs.ReceiveMessageInput{
 		AttributeNames: []*string{
 			aws.String(sqs.MessageSystemAttributeNameSentTimestamp),

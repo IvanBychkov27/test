@@ -25,6 +25,13 @@ networks/10002/tarantool/servers
     "192.168.1.49:13401",
 	"192.168.1.49:13402"
 ]
+
+networks/1/tarantool/throttle
+1
+
+networks/10002/tarantool/throttle
+2
+
 */
 
 package main
@@ -46,14 +53,14 @@ func main() {
 
 	for _, network := range networks {
 		body := requestInPrometheus(urlQuery(network)) // получаем данные из prometheus
+		fmt.Println(string(body))
 		networkData[network] = parseDataPrometheusIPMem(body)
 	}
 	dataProcessing(networkData)
 	fmt.Println(networkData)
 
-	respConsul := setThrottleInConsul(`http://127.0.0.1:8500/v1/kv/networks/1/tarantool/throttle`, "20")
+	respConsul := setThrottleInConsul(`http://127.0.0.1:8500/v1/kv/networks/1/tarantool/throttle`, "0")
 	fmt.Println(string(respConsul))
-
 }
 
 // формирование url запроса для prometheus
@@ -67,7 +74,7 @@ func urlQuery(network string) string {
 		return ""
 	}
 	ips = ips[:len(ips)-1]
-	return fmt.Sprintf(`http://109.206.162.136:82/api/v1/query?query=node_filesystem_avail_bytes{mountpoint=~"/|/etc/hostname",instance=~"%s"}/node_filesystem_size_bytes{mountpoint=~"/|/etc/hostname",instance=~"%s"}*100`, ips, ips)
+	return fmt.Sprintf(`http://109.206.162.136:82/api/v1/query?query=100-node_filesystem_avail_bytes{mountpoint=~"/|/etc/hostname",instance=~"%s"}/node_filesystem_size_bytes{mountpoint=~"/|/etc/hostname",instance=~"%s"}*100`, ips, ips)
 }
 
 // получение списка всех networks
@@ -204,13 +211,13 @@ func parseDataPrometheusIPMem(body []byte) map[string]float64 {
 // обработка данных
 func dataProcessing(networkData map[string]map[string]float64) {
 	for _, network := range networkData {
-		var min float64 = 100
+		var max float64
 		for _, mem := range network {
-			if mem < min {
-				min = mem
+			if mem > max {
+				max = mem
 			}
 		}
-		network["mem"] = min
+		network["mem"] = max
 	}
 }
 

@@ -29,10 +29,30 @@ func main() {
 	//fmt.Println(w1)
 	//fmt.Println(w2)
 
-	work13()
+	work26()
 
 }
 
+// округление до любого кратного числа
+func work26() {
+	k := 2
+	data := []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 100}
+	for _, d := range data {
+		fmt.Print(d, " ")
+	}
+
+	fmt.Println()
+
+	for _, d := range data {
+		d += k / 2
+		div := d % k
+		res := d - div
+		fmt.Print(res, " ")
+	}
+
+}
+
+//--------------------------------------------
 func work25() {
 	wrapLinkCDNDomain := `https://cdnspace.io,https://v2.cdnspace.net`
 	wrapLinkCDNPrefix := `https://adplat.sfo2.cdn.digitaloceanspaces.com,https://apimg.fra1.cdn.digitaloceanspaces.com`
