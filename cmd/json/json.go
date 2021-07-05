@@ -35,10 +35,7 @@ json для проекта collector
 */
 
 func startUnmarshal() {
-	data := []byte(`
-{
-	"key": "body key string"
-}`)
+	data := []byte(`{"key": "body key string"}`)
 
 	resp, err := getRequest(data)
 	if err != nil {

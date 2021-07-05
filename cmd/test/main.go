@@ -13,6 +13,8 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"sync"
+	"sync/atomic"
 	"time"
 )
 
@@ -29,8 +31,46 @@ func main() {
 	//fmt.Println(w1)
 	//fmt.Println(w2)
 
-	work26()
+	work27()
 
+}
+
+var countGo int64
+
+// подсчет запущенных горутин
+func work27() {
+	var i int
+	var wg sync.WaitGroup
+	t := time.NewTicker(time.Second)
+	for {
+		fmt.Print(atomic.LoadInt64(&countGo), " ")
+
+		wg.Add(1)
+		go g(&wg)
+
+		i++
+		if i > 10 {
+			break
+		}
+		<-t.C
+	}
+	wg.Wait()
+	fmt.Print("Done... ")
+}
+
+func g(wg *sync.WaitGroup) {
+	defer wg.Done()
+	var i int
+	atomic.AddInt64(&countGo, 1)
+	for {
+		i++
+		time.Sleep(time.Second * 2)
+		if i > 10 {
+			atomic.AddInt64(&countGo, -1)
+			break
+		}
+	}
+	fmt.Print("g_end ")
 }
 
 // округление до любого кратного числа

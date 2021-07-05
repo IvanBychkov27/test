@@ -23,6 +23,10 @@ type Message struct {
 	KeyAuth   string `json:"key_auth"`
 	KeyP256DH string `json:"key_p256dh"`
 	BinderURL string `json:"binder_url"`
+	Type      int    `json:"type"`
+	UserID    int    `json:"user_id"`
+	TgUserID  int    `json:"tg_user_id"`
+	Payload   string `json:"payload"`
 	//Body      string `json:"body"`
 }
 
@@ -76,7 +80,5 @@ func main() {
 		}
 
 		log.Println("msg: ", msg)
-
 	}
-
 }

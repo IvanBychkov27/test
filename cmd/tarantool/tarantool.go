@@ -48,11 +48,11 @@ func main() {
 	// -- 4 time_create (время создания записи)
 
 	nRecords := 100 // сколько сделать записей в таблицу
-	ttl := 120      // время хранения записи в базе тарантул в секундах
+	ttl := 300      // время хранения записи в базе тарантул в секундах
 
 	// включить/отключить запись данных в таблицу
-	//rec_ok := false // запись отключена
-	rec_ok := true // запись включена
+	rec_ok := false // запись отключена
+	//rec_ok := true // запись включена
 
 	timeStart := time.Now()
 	if rec_ok {
@@ -85,17 +85,17 @@ func main() {
 	fmt.Println()
 	fmt.Println("Поиск данных:")
 
-	id = "id1"
+	id = "id96"
 
-	_, err = getCapRecord(conn, nAddr, id)
+	resp, err := getCapRecord(conn, nAddr, id)
 	if err != nil {
 		fmt.Println(id, err.Error())
 	}
-	//if len(resp) != 0 {
-	//	fmt.Println("getCapRecord", id, ":", resp)
-	//} else {
-	//	fmt.Println("getCapRecord", id, " : no found")
-	//}
+	if len(resp) != 0 {
+		fmt.Println("getCapRecord", id, ":", resp)
+	} else {
+		fmt.Println("getCapRecord", id, " : no found")
+	}
 
 	timeStart = time.Now()
 	result := getCapAllRecords(conn, nAddr)
@@ -124,7 +124,7 @@ func main() {
 	timeStart = time.Now()
 	t := int(time.Now().Unix()) - 30
 	fmt.Println("t = ", t)
-	resp, err := getCapRecordsTimeCreate(conn, t)
+	resp, err = getCapRecordsTimeCreate(conn, t)
 	timeInterval_getCapRecordsTimeCreate := time.Now().Sub(timeStart)
 	if err != nil {
 		fmt.Println(id, err.Error())
@@ -171,9 +171,9 @@ func getCapRecord(conn *tarantool.Connection, nAddr, id string) (map[string]stru
 	var err error
 
 	if nAddr == "1" {
-		err = conn.CallTyped("getOne_cap", []interface{}{id}, &capRecords)
+		err = conn.CallTyped("get_cap", []interface{}{id}, &capRecords)
 	} else {
-		err = conn.CallTyped("_getOne_cap", []interface{}{id}, &capRecords)
+		err = conn.CallTyped("_get_cap", []interface{}{id}, &capRecords)
 	}
 	if err != nil {
 		return nil, err

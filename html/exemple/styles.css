@@ -1,0 +1,27 @@
+h2{
+    color: blue;
+}
+
+div{
+    width: 50%;    /* ширина */
+    height: 100px; /* высота */
+    margin: 20px;
+}
+
+p{
+    color: greenyellow; /* цвет */
+    margin: 20px;     /* отступ от других элементов */
+    font-size: 30px;
+    font-style: italic;
+}
+
+.redBlock{
+    background-color: red; /* цвет фона */
+}
+.blueBlock{
+    background-color: blue; /* цвет фона */
+}
+
+#id{
+    background-color: yellow; /* цвет фона */
+}
