@@ -31,7 +31,7 @@ func main() {
 	//fmt.Println(w1)
 	//fmt.Println(w2)
 
-	work27()
+	work19()
 
 }
 

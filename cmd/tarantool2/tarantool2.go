@@ -43,8 +43,8 @@ func main() {
 	id := "id"
 
 	// включить/отключить запись данных в таблицу
-	//rec_ok := false // запись отключена
-	rec_ok := true // запись включена
+	rec_ok := false // запись отключена
+	//rec_ok := true // запись включена
 
 	if rec_ok {
 		fmt.Println("Запись данных включена")
@@ -52,7 +52,7 @@ func main() {
 		n := rand.Intn(100)
 		id = id + strconv.Itoa(n)
 		bucket_id, err = strconv.Atoi(time.Now().Format("150405"))
-		ttl := 120 // время хранения записи в базе тарантул в секундах
+		ttl := 600 // время хранения записи в базе тарантул в секундах
 
 		data := DataImp{id, bucket_id, ttl}
 
@@ -65,15 +65,28 @@ func main() {
 		fmt.Println()
 	}
 
-	//id = "id98"
+	//id = "id90"
+	//resp, err := getImpRecord_1(conn, nAddr, id)
+	//if err != nil {
+	//	fmt.Println(id, err.Error())
+	//	return
+	//}
+	//if len(resp) != 0 {
+	//	fmt.Println("getImpRecord", id, ":", resp)
+	//} else {
+	//	fmt.Println("getImpRecord", id, " : no found")
+	//}
+
+	id = "id83"
 	resp, err := getImpRecord(conn, nAddr, id)
 	if err != nil {
 		fmt.Println(id, err.Error())
+		return
 	}
-	if len(resp) != 0 {
-		fmt.Println("getImpRecord", id, ":", resp)
+	if resp {
+		fmt.Println("getImpRecord", id, ": ", resp)
 	} else {
-		fmt.Println("getImpRecord", id, " : no found")
+		fmt.Println("getImpRecord", id, " : no found ", resp)
 	}
 }
 
@@ -92,26 +105,45 @@ func setImpRecord(conn *tarantool.Connection, nAddr string, d DataImp) error {
 	return nil
 }
 
-// читает одну запись с id из таблицы link_sessions_imp (tarantool)
-func getImpRecord(conn *tarantool.Connection, nAddr, id string) (map[string]struct{}, error) {
-	var impRecords []DataImp
-	var err error
+//читает одну запись с id из таблицы link_sessions_imp (tarantool)
+func getImpRecord(conn *tarantool.Connection, nAddr, id string) (bool, error) {
+	res, _ := conn.Call("get_link_imp", []interface{}{id})
 
-	if nAddr == "1" {
-		err = conn.CallTyped("get_link_imp", []interface{}{id}, &impRecords)
-	} else {
-		err = conn.CallTyped("_get_link_imp", []interface{}{id}, &impRecords)
-	}
-	if err != nil {
-		return nil, err
-	}
+	d := res.Tuples()[0][0]
+	//fmt.Println(d)
+	//fmt.Printf("%T", d)
+	//fmt.Println()
 
-	impData := make(map[string]struct{})
-	for _, c := range impRecords {
-		if c.Id != "" {
-			impData[c.Id] = struct{}{}
-		}
+	if d == uint64(1) {
+		return true, nil
 	}
 
-	return impData, nil
+	return false, nil
 }
+
+// читает одну запись с id из таблицы link_sessions_imp (tarantool)
+//func getImpRecord_1(conn *tarantool.Connection, nAddr, id string) (map[string]struct{}, error) {
+//	var impRecords []DataImp
+//	var err error
+//
+//	if nAddr == "1" {
+//		err = conn.CallTyped("get_link_imp", []interface{}{id}, &impRecords)
+//	} else {
+//		err = conn.CallTyped("_get_link_imp", []interface{}{id}, &impRecords)
+//	}
+//	if err != nil {
+//		return nil, err
+//	}
+//
+//	fmt.Println("len(impRecords) =", len(impRecords))
+//	fmt.Println("impRecords =", impRecords)
+//
+//	impData := make(map[string]struct{})
+//	for _, c := range impRecords {
+//		if c.Id != "" {
+//			impData[c.Id] = struct{}{}
+//		}
+//	}
+//
+//	return impData, nil
+//}

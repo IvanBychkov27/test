@@ -54,6 +54,8 @@ github.com/beorn7/perks/quantile
 github.com/cespare/xxhash/v2
 # github.com/cloudflare/golz4 v0.0.0-20150217214814-ef862a3cdc58
 github.com/cloudflare/golz4
+# github.com/davecgh/go-spew v1.1.1
+github.com/davecgh/go-spew/spew
 # github.com/dgrijalva/jwt-go v3.2.0+incompatible
 ## explicit
 github.com/dgrijalva/jwt-go
@@ -105,6 +107,8 @@ github.com/mattn/go-colorable
 github.com/mattn/go-isatty
 # github.com/matttproud/golang_protobuf_extensions v1.0.1
 github.com/matttproud/golang_protobuf_extensions/pbutil
+# github.com/pmezard/go-difflib v1.0.0
+github.com/pmezard/go-difflib/difflib
 # github.com/prometheus/client_golang v1.9.0
 ## explicit
 github.com/prometheus/client_golang/prometheus
@@ -120,6 +124,9 @@ github.com/prometheus/common/model
 github.com/prometheus/procfs
 github.com/prometheus/procfs/internal/fs
 github.com/prometheus/procfs/internal/util
+# github.com/stretchr/testify v1.5.1
+## explicit
+github.com/stretchr/testify/assert
 # github.com/tarantool/go-tarantool v0.0.0-20201220111423-77ce7d9a407a
 ## explicit
 github.com/tarantool/go-tarantool
@@ -289,3 +296,5 @@ google.golang.org/protobuf/types/known/timestamppb
 ## explicit
 gopkg.in/vmihailenco/msgpack.v2
 gopkg.in/vmihailenco/msgpack.v2/codes
+# gopkg.in/yaml.v2 v2.3.0
+gopkg.in/yaml.v2

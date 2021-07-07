@@ -13,6 +13,7 @@ require (
 	github.com/jackc/pgx/v4 v4.11.0
 	github.com/lib/pq v1.9.0
 	github.com/prometheus/client_golang v1.9.0
+	github.com/stretchr/testify v1.5.1
 	github.com/tarantool/go-tarantool v0.0.0-20201220111423-77ce7d9a407a
 	github.com/valyala/fasthttp v1.26.0 // indirect
 	github.com/yourbasic/bit v0.0.0-20180313074424-45a4409f4082
