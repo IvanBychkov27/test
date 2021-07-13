@@ -10,6 +10,7 @@ require (
 	github.com/fatih/color v1.10.0
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
 	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/google/gopacket v1.1.19
 	github.com/jackc/pgx/v4 v4.11.0
 	github.com/lib/pq v1.9.0
 	github.com/prometheus/client_golang v1.9.0
