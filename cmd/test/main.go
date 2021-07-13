@@ -31,8 +31,15 @@ func main() {
 	//fmt.Println(w1)
 	//fmt.Println(w2)
 
-	work19()
+	work28()
 
+}
+
+func work28() {
+	b := []byte("12345")
+
+	res := string(b[0])
+	fmt.Println(res)
 }
 
 var countGo int64

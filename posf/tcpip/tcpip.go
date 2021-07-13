@@ -23,7 +23,7 @@ func main() {
 
 	var (
 		deviceName  string = "lo"
-		snapshotLen int32  = 1024
+		snapshotLen int32  = 1024 //65536
 		promiscuous bool   = false
 		err         error
 		timeout     time.Duration = 1 * time.Second
@@ -82,8 +82,14 @@ func packetData(packet gopacket.Packet) {
 		if tcp.PSH {
 			fmt.Println("TCP:")
 			fmt.Printf("from port  %d to %d\n", tcp.SrcPort, tcp.DstPort)
-			fmt.Println("Sequence number: ", tcp.Seq)
+			fmt.Println("tcp_window_size: ", tcp.Window)
+			tcpOptions := tcp.Options
+			for _, option := range tcpOptions {
+				fmt.Println("TCP option type: ", option.OptionType)
+				fmt.Println("TCP options data: ", string(option.OptionData))
+			}
 			fmt.Println()
+
 		} else {
 			return
 		}
