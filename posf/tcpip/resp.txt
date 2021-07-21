@@ -1,0 +1,79 @@
+Слушаем интерфейс lo:127.0.0.1:2999
+filter: only capturing TCP port 2999 packets
+PACKET: 496 bytes, wire length 496 cap length 496 @ 2021-07-14 16:13:38.858256 +0300 MSK
+- Layer 1 (14 bytes) = Ethernet	{Contents=[..14..] Payload=[..482..] SrcMAC=00:00:00:00:00:00 DstMAC=00:00:00:00:00:00 EthernetType=IPv4 Length=0}
+- Layer 2 (20 bytes) = IPv4	{Contents=[..20..] Payload=[..462..] Version=4 IHL=5 TOS=0 Length=482 Id=39297 Flags=DF FragOffset=0 TTL=64 Protocol=TCP Checksum=41362 SrcIP=127.0.0.1 DstIP=127.0.0.1 Options=[] Padding=[]}
+- Layer 3 (32 bytes) = TCP	{Contents=[..32..] Payload=[..430..] SrcPort=52946 DstPort=2999(remoteware-un) Seq=862464687 Ack=2753938500 DataOffset=8 FIN=false SYN=false RST=false PSH=true ACK=true URG=false ECE=false CWR=false NS=false Window=512 Checksum=65494 Urgent=0 Options=[TCPOption(NOP:), TCPOption(NOP:), TCPOption(Timestamps:543567052/543557986 0x20662ccc20660962)] Padding=[]}
+- Layer 4 (430 bytes) = Payload	430 byte(s)
+
+TCP:
+from port  52946 to 2999
+tcp_window_size:  512
+TCP option type:  NOP
+TCP options data:
+TCP option type:  NOP
+TCP options data:
+TCP option type:  Timestamps
+TCP options data:   f,� f	b
+
+Application layer/Payload found:
+GET /test?uin=abc&token=123 HTTP/1.1
+Host: 127.0.0.1:2999
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: i18n_redirected=en
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+
+
+
+PACKET: 66 bytes, wire length 66 cap length 66 @ 2021-07-14 16:13:38.858272 +0300 MSK
+- Layer 1 (14 bytes) = Ethernet	{Contents=[..14..] Payload=[..52..] SrcMAC=00:00:00:00:00:00 DstMAC=00:00:00:00:00:00 EthernetType=IPv4 Length=0}
+- Layer 2 (20 bytes) = IPv4	{Contents=[..20..] Payload=[..32..] Version=4 IHL=5 TOS=0 Length=52 Id=40886 Flags=DF FragOffset=0 TTL=64 Protocol=TCP Checksum=40203 SrcIP=127.0.0.1 DstIP=127.0.0.1 Options=[] Padding=[]}
+- Layer 3 (32 bytes) = TCP	{Contents=[..32..] Payload=[] SrcPort=2999(remoteware-un) DstPort=52946 Seq=2753938500 Ack=862465117 DataOffset=8 FIN=false SYN=false RST=false PSH=false ACK=true URG=false ECE=false CWR=false NS=false Window=509 Checksum=65064 Urgent=0 Options=[TCPOption(NOP:), TCPOption(NOP:), TCPOption(Timestamps:543567052/543567052 0x20662ccc20662ccc)] Padding=[]}
+
+
+PACKET: 378 bytes, wire length 378 cap length 378 @ 2021-07-14 16:13:38.858366 +0300 MSK
+- Layer 1 (14 bytes) = Ethernet	{Contents=[..14..] Payload=[..364..] SrcMAC=00:00:00:00:00:00 DstMAC=00:00:00:00:00:00 EthernetType=IPv4 Length=0}
+- Layer 2 (20 bytes) = IPv4	{Contents=[..20..] Payload=[..344..] Version=4 IHL=5 TOS=0 Length=364 Id=40887 Flags=DF FragOffset=0 TTL=64 Protocol=TCP Checksum=39890 SrcIP=127.0.0.1 DstIP=127.0.0.1 Options=[] Padding=[]}
+- Layer 3 (32 bytes) = TCP	{Contents=[..32..] Payload=[..312..] SrcPort=2999(remoteware-un) DstPort=52946 Seq=2753938500 Ack=862465117 DataOffset=8 FIN=false SYN=false RST=false PSH=true ACK=true URG=false ECE=false CWR=false NS=false Window=512 Checksum=65376 Urgent=0 Options=[TCPOption(NOP:), TCPOption(NOP:), TCPOption(Timestamps:543567052/543567052 0x20662ccc20662ccc)] Padding=[]}
+- Layer 4 (312 bytes) = Payload	312 byte(s)
+
+TCP:
+from port  2999 to 52946
+tcp_window_size:  512
+TCP option type:  NOP
+TCP options data:
+TCP option type:  NOP
+TCP options data:
+TCP option type:  Timestamps
+TCP options data:   f,� f,�
+
+Application layer/Payload found:
+HTTP/1.1 200 OK
+Content-Type: application/json
+Date: Wed, 14 Jul 2021 13:13:38 GMT
+Content-Length: 203
+
+
+[
+ {
+   "url": "http://dsp01.test",
+   "price": 0.02999,
+   "icon": "dsp_icon.com",
+   "image": "dsp_image",
+   "description": "dsp_description",
+   "title":"dsp_title",
+   "nurl":"dsp_nurl:2999"
+ }
+]
+
+
+PACKET: 66 bytes, wire length 66 cap length 66 @ 2021-07-14 16:13:38.858372 +0300 MSK
+- Layer 1 (14 bytes) = Ethernet	{Contents=[..14..] Payload=[..52..] SrcMAC=00:00:00:00:00:00 DstMAC=00:00:00:00:00:00 EthernetType=IPv4 Length=0}
+- Layer 2 (20 bytes) = IPv4	{Contents=[..20..] Payload=[..32..] Version=4 IHL=5 TOS=0 Length=52 Id=39298 Flags=DF FragOffset=0 TTL=64 Protocol=TCP Checksum=41791 SrcIP=127.0.0.1 DstIP=127.0.0.1 Options=[] Padding=[]}
+- Layer 3 (32 bytes) = TCP	{Contents=[..32..] Payload=[] SrcPort=52946 DstPort=2999(remoteware-un) Seq=862465117 Ack=2753938812 DataOffset=8 FIN=false SYN=false RST=false PSH=false ACK=true URG=false ECE=false CWR=false NS=false Window=510 Checksum=65064 Urgent=0 Options=[TCPOption(NOP:), TCPOption(NOP:), TCPOption(Timestamps:543567052/543567052 0x20662ccc20662ccc)] Padding=[]}
+

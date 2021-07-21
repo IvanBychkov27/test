@@ -67,7 +67,6 @@ github.com/fatih/color
 github.com/golang/freetype/raster
 github.com/golang/freetype/truetype
 # github.com/golang/protobuf v1.5.2
-## explicit
 github.com/golang/protobuf/proto
 github.com/golang/protobuf/protoc-gen-go/descriptor
 github.com/golang/protobuf/ptypes
@@ -136,8 +135,6 @@ github.com/stretchr/testify/assert
 # github.com/tarantool/go-tarantool v0.0.0-20201220111423-77ce7d9a407a
 ## explicit
 github.com/tarantool/go-tarantool
-# github.com/valyala/fasthttp v1.26.0
-## explicit
 # github.com/yourbasic/bit v0.0.0-20180313074424-45a4409f4082
 ## explicit
 github.com/yourbasic/bit
@@ -147,6 +144,9 @@ github.com/yuin/gopher-lua
 github.com/yuin/gopher-lua/ast
 github.com/yuin/gopher-lua/parse
 github.com/yuin/gopher-lua/pm
+# gitlab.com/adscompass/logger v1.0.3
+## explicit
+gitlab.com/adscompass/logger
 # go.uber.org/atomic v1.6.0
 go.uber.org/atomic
 # go.uber.org/multierr v1.5.0
@@ -172,6 +172,7 @@ golang.org/x/image/math/fixed
 golang.org/x/lint
 golang.org/x/lint/golint
 # golang.org/x/net v0.0.0-20210510120150-4163338589ed
+## explicit
 golang.org/x/net/bpf
 golang.org/x/net/context
 golang.org/x/net/http/httpguts
@@ -181,6 +182,7 @@ golang.org/x/net/idna
 golang.org/x/net/internal/timeseries
 golang.org/x/net/trace
 # golang.org/x/sys v0.0.0-20210514084401-e8d321eab015
+## explicit
 golang.org/x/sys/internal/unsafeheader
 golang.org/x/sys/unix
 golang.org/x/sys/windows
@@ -265,8 +267,6 @@ google.golang.org/grpc/serviceconfig
 google.golang.org/grpc/stats
 google.golang.org/grpc/status
 google.golang.org/grpc/tap
-# google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.1.0
-## explicit
 # google.golang.org/protobuf v1.26.0
 ## explicit
 google.golang.org/protobuf/encoding/prototext

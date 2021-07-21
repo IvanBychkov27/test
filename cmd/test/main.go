@@ -40,6 +40,18 @@ func work28() {
 
 	res := string(b[0])
 	fmt.Println(res)
+
+	orderUA := ""
+	for _, e := range strings.Split("M1460,N,W8,N,N,S,", ",") {
+		if e != "" {
+			orderUA += string(e[0])
+		}
+	}
+	fmt.Println("orderUA =", orderUA)
+
+	endpoint := 123
+	err := fmt.Errorf("Empty passback URL for directlink endpoint %d", endpoint)
+	fmt.Println(err.Error())
 }
 
 var countGo int64
