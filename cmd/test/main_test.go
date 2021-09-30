@@ -23,3 +23,17 @@ func Benchmark_work22_my(b *testing.B) {
 		work22_my(d, n)
 	}
 }
+
+var data = []byte("GET /?uin=999AAABBBDDD HTTP/1.1\r\nHost: 127.0.0.1:2999\r\nUser-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:90.0) Gecko/20100101 Firefox/90.0\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\r\nAccept-Language: ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3\r\nAccept-Encoding: gzip, deflate\r\nConnection: keep-alive\r\nCookie: i18n_redirected=en\r\nUpgrade-Insecure-Requests: 1\r\nSec-Fetch-Dest: document\r\nSec-Fetch-Mode: navigate\r\nSec-Fetch-Site: none\r\nSec-Fetch-User: ?1\r\n\r\n")
+
+func Benchmark_work30(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		work30(string(data))
+	}
+}
+
+func Benchmark_work31(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		work31(data)
+	}
+}

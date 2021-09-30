@@ -4,6 +4,7 @@ package main
 
 import (
 	"flag"
+	"github.com/arl/statsviz"
 	"html/template"
 	"log"
 	"net/http"
@@ -43,10 +44,16 @@ func QR(w http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
+	var err error
+	err = statsviz.RegisterDefault() // см: 127.0.0.1:1718/debug/statsviz/      - https://github.com/arl/statsviz
+	if err != nil {
+		log.Fatal("statsviz.RegisterDefault:", err)
+	}
+
 	flag.Parse()
 	http.Handle("/", http.HandlerFunc(QR))
 	log.Println("listen...", *addr)
-	err := http.ListenAndServe(*addr, nil)
+	err = http.ListenAndServe(*addr, nil)
 	if err != nil {
 		log.Fatal("ListenAndServe:", err)
 	}

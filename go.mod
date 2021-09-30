@@ -4,12 +4,14 @@ go 1.15
 
 require (
 	github.com/ClickHouse/clickhouse-go v1.4.3
+	github.com/arl/statsviz v0.4.0
 	github.com/aws/aws-sdk-go v1.27.0
 	github.com/beevik/etree v1.1.0
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/fatih/color v1.10.0
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
 	github.com/google/gopacket v1.1.19
+	github.com/hashicorp/go-uuid v1.0.1
 	github.com/jackc/pgx/v4 v4.11.0
 	github.com/lib/pq v1.9.0
 	github.com/prometheus/client_golang v1.9.0

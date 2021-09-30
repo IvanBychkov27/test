@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	fileName := "cmd/filesort/file/f.txt"
+	fileName := "cmd/filesort/file/uaAndroid.txt"
 	f, err := ioutil.ReadFile(fileName)
 	if err != nil {
 		fmt.Println(err)
@@ -33,7 +33,7 @@ func main() {
 	}
 
 	dataFileSort := []byte(fs)
-	fileNameSort := "cmd/filesort/file/fsort.txt"
+	fileNameSort := "cmd/filesort/file/uaAndroidSort.txt"
 
 	err = ioutil.WriteFile(fileNameSort, dataFileSort, 0644)
 	if err != nil {

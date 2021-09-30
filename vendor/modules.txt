@@ -10,6 +10,9 @@ github.com/ClickHouse/clickhouse-go/lib/lz4
 github.com/ClickHouse/clickhouse-go/lib/protocol
 github.com/ClickHouse/clickhouse-go/lib/types
 github.com/ClickHouse/clickhouse-go/lib/writebuffer
+# github.com/arl/statsviz v0.4.0
+## explicit
+github.com/arl/statsviz
 # github.com/aws/aws-sdk-go v1.27.0
 ## explicit
 github.com/aws/aws-sdk-go/aws
@@ -79,6 +82,11 @@ github.com/google/gopacket
 github.com/google/gopacket/layers
 github.com/google/gopacket/pcap
 github.com/google/gopacket/pcapgo
+# github.com/gorilla/websocket v1.4.2
+github.com/gorilla/websocket
+# github.com/hashicorp/go-uuid v1.0.1
+## explicit
+github.com/hashicorp/go-uuid
 # github.com/jackc/chunkreader/v2 v2.0.1
 github.com/jackc/chunkreader/v2
 # github.com/jackc/pgconn v1.8.1

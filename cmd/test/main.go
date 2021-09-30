@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	crypto "crypto/rand"
 	"crypto/sha1"
 	"encoding/base64"
@@ -31,27 +32,113 @@ func main() {
 	//fmt.Println(w1)
 	//fmt.Println(w2)
 
-	work28()
+	//data := []byte("GET /?uin=999AAABBBDDD HTTP/1.1\r\nHost: 127.0.0.1:2999\r\nUser-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:90.0) Gecko/20100101 Firefox/90.0\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\r\nAccept-Language: ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3\r\nAccept-Encoding: gzip, deflate\r\nConnection: keep-alive\r\nCookie: i18n_redirected=en\r\nUpgrade-Insecure-Requests: 1\r\nSec-Fetch-Dest: document\r\nSec-Fetch-Mode: navigate\r\nSec-Fetch-Site: none\r\nSec-Fetch-User: ?1\r\n\r\n")
+	//
+	//fmt.Println(work30(string(data)))
+	//fmt.Println(work31(data))
 
+	work32()
+}
+
+func work32() {
+
+	SYN := false
+	PSH := false
+
+	if SYN || PSH {
+		fmt.Println("1 SYN =", SYN, "PSH =", PSH)
+	}
+
+	if !SYN && !PSH {
+		fmt.Println("2 SYN =", !SYN, "PSH =", !PSH)
+	} else {
+		fmt.Println("2 Ok")
+	}
+
+	fmt.Println("Done...")
+}
+
+func work31(data []byte) string {
+	var uin []byte
+	searchStr := []byte("uin=")
+	//data := []byte("GET /?uin=999AAABBBDDD HTTP/1.1\r\nHost: 127.0.0.1:2999\r\nUser-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:90.0) Gecko/20100101 Firefox/90.0\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\r\nAccept-Language: ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3\r\nAccept-Encoding: gzip, deflate\r\nConnection: keep-alive\r\nCookie: i18n_redirected=en\r\nUpgrade-Insecure-Requests: 1\r\nSec-Fetch-Dest: document\r\nSec-Fetch-Mode: navigate\r\nSec-Fetch-Site: none\r\nSec-Fetch-User: ?1\r\n\r\n")
+
+	if !bytes.Contains(data, searchStr) {
+		return ""
+	}
+	idx := bytes.Index(data, searchStr) + len(searchStr)
+	for i := idx; i < len(data); i++ {
+		d := data[i]
+		if d == ' ' {
+			break
+		}
+		uin = append(uin, d)
+	}
+
+	//fmt.Println("UIN =", string(uin))
+	return string(uin)
+}
+
+func work30(data string) string {
+	// получим uin из данных Payload
+
+	var uin string
+	separator := " "
+	searchStr := "uin="
+
+	//data := "GET /?uin=999AAABBBDDD HTTP/1.1\r\nHost: 127.0.0.1:2999\r\nUser-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:90.0) Gecko/20100101 Firefox/90.0\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\r\nAccept-Language: ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3\r\nAccept-Encoding: gzip, deflate\r\nConnection: keep-alive\r\nCookie: i18n_redirected=en\r\nUpgrade-Insecure-Requests: 1\r\nSec-Fetch-Dest: document\r\nSec-Fetch-Mode: navigate\r\nSec-Fetch-Site: none\r\nSec-Fetch-User: ?1\r\n\r\n"
+
+	if !strings.Contains(data, "uin=") {
+		return ""
+	}
+
+	var idx int
+	dataStr := strings.Split(data, separator)
+	for _, str := range dataStr {
+		if !strings.Contains(str, searchStr) {
+			continue
+		}
+
+		idx = strings.Index(str, searchStr) + len(searchStr)
+		if idx != -1 {
+			uin = str[idx:]
+			break
+		}
+	}
+
+	//fmt.Println("UIN =", uin)
+	return uin
+}
+
+func work29() {
+	srcs := make([][]byte, 0)
+	src := []byte("1")
+	srcs = append(srcs, src)
+	srcs = append(srcs, []byte("2"))
+
+	for i := range srcs {
+		fmt.Println(i, "=", string(srcs[i]))
+	}
 }
 
 func work28() {
-	b := []byte("12345")
+	user := "service_user"
+	password := "QY2cvhcpCKPBnUwtPeNJUpkC"
+	expectation := "c2VydmljZV91c2VyOlFZMmN2aGNwQ0tQQm5Vd3RQZU5KVXBrQw=="
 
-	res := string(b[0])
+	data := user + ":" + password
+	fmt.Println(data)
+
+	res := base64.StdEncoding.EncodeToString([]byte(data))
+
 	fmt.Println(res)
 
-	orderUA := ""
-	for _, e := range strings.Split("M1460,N,W8,N,N,S,", ",") {
-		if e != "" {
-			orderUA += string(e[0])
-		}
+	if res == expectation {
+		fmt.Println("ok!")
+	} else {
+		fmt.Println("not equal")
 	}
-	fmt.Println("orderUA =", orderUA)
 
-	endpoint := 123
-	err := fmt.Errorf("Empty passback URL for directlink endpoint %d", endpoint)
-	fmt.Println(err.Error())
 }
 
 var countGo int64
@@ -618,23 +705,23 @@ func work13() {
 	//fmt.Println(string(t))
 	//
 	//text := "123 34 105 100 34 58 34 84 69 83 84 34 44 34 104 111 117 114 34 58 55 55 55 44 34 99 111 117 110 116 114 121 34 58 34 82 117 115 34 44 34 114 95 99 108 105 99 107 34 58 102 97 108 115 101 44 34 114 95 105 109 112 34 58 102 97 108 115 101 44 34 114 95 118 105 101 119 34 58 102 97 108 115 101 44 34 97 100 118 101 114 116 105 115 101 114 95 99 97 115 104 98 97 99 107 34 58 48 125"
-	text1 := "123 34 100 97 116 101 34 58 34 84 69 83 84 34 44 34 119 105 100 103 101 116 95 105 100 34 58 49 44 34 99 111 117 110 116 114 121 34 58 34 82 117 115 34 125"
-	fmt.Println(encodeText(text1))
-
-	text2 := "123 34 100 97 116 101 34 58 34 84 69 83 84 34 44 34 119 105 100 103 101 116 95 105 100 34 58 49 44 34 99 111 117 110 116 114 121 34 58 34 82 117 115 34 44 34 105 115 95 112 117 115 104 95 115 117 98 115 99 114 105 112 116 105 111 110 34 58 102 97 108 115 101 44 34 105 115 95 112 117 115 104 95 117 110 115 117 98 115 99 114 105 112 116 105 111 110 34 58 102 97 108 115 101 125"
-	fmt.Println(encodeText(text2))
+	//text1 := "123 34 100 97 116 101 34 58 34 84 69 83 84 34 44 34 119 105 100 103 101 116 95 105 100 34 58 49 44 34 99 111 117 110 116 114 121 34 58 34 82 117 115 34 125"
+	//fmt.Println(encodeText(text1))
+	//
+	//text2 := "123 34 100 97 116 101 34 58 34 84 69 83 84 34 44 34 119 105 100 103 101 116 95 105 100 34 58 49 44 34 99 111 117 110 116 114 121 34 58 34 82 117 115 34 44 34 105 115 95 112 117 115 104 95 115 117 98 115 99 114 105 112 116 105 111 110 34 58 102 97 108 115 101 44 34 105 115 95 112 117 115 104 95 117 110 115 117 98 115 99 114 105 112 116 105 111 110 34 58 102 97 108 115 101 125"
+	//fmt.Println(encodeText(text2))
 
 }
 
-func encodeText(text string) string {
-	ss := strings.Split(text, " ")
-	res := ""
-	for _, s := range ss {
-		i, _ := strconv.Atoi(s)
-		res += string(i)
-	}
-	return res
-}
+//func encodeText(text string) string {
+//	ss := strings.Split(text, " ")
+//	res := ""
+//	for _, s := range ss {
+//		i, _ := strconv.Atoi(s)
+//		res += string(i)
+//	}
+//	return res
+//}
 
 //======================================
 func work12() {
