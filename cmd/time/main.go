@@ -25,4 +25,20 @@ func main() {
 	ageDays = (int(time.Since(date).Hours()) / 24) + 1
 	fmt.Println("ageDays =", ageDays)
 
+	dif := time.Since(t)
+	fmt.Println("dif =", dif)
+
+	var f float64
+	f = float64(dif)
+	fmt.Println("nano sec:", f)
+
+	ds := []int{1, 2, 3, 4, 5}
+	for _, d := range ds {
+		fmt.Printf("d = %d \n", d)
+	}
+
+	query := "ALTER TABLE %s.%s DROP PARTITION '%s'"
+	query = fmt.Sprintf(query, "ch.task.Database", "ch.task.Table", "partition")
+	fmt.Println("query =", query)
+
 }
