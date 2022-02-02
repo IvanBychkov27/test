@@ -1,18 +1,16 @@
 package main
 
 /*
-openvpn --genkey secret pre-shared.key
-
-
-
-//urlData := "http://apta.fun:2099/TH"
 99.adscompass.ru
 2000.99.adscompass.ru
 3000.99.adscompass.ru
 4000.99.adscompass.ru
 */
 
-import "log"
+import (
+	"crypto/tls"
+	"log"
+)
 import (
 	"fmt"
 	"io/ioutil"
@@ -22,7 +20,6 @@ import (
 )
 
 func main() {
-	//getURL()
 	serverNordVPN()
 }
 
@@ -31,22 +28,27 @@ func serverNordVPN() {
 
 	user := "ysETCpBC8JvFzJnt7SjsJxJC"
 	password := "qRhXR6k8yW4pcW71c34ReDW3"
-	port := "1080"
 
-	ip, flag := "109.202.99.35", "NL"
-	//ip, flag := "165.231.210.155", "US"
-	//ip, flag := "196.196.244.3", "SE"
-	//ip, flag := "196.196.192.11", "IE"
+	// Socks
+	//protocol, ip, port, flag := "socks5", "109.202.99.35", "1080", "NL"
+	//protocol, ip, port, flag := "socks5", "165.231.210.171", "1080", "US"
+	//protocol, ip, port, flag := "socks5", "196.196.244.3", "1080", "SE"
+	//protocol, ip, port, flag := "socks5", "196.196.192.11", "1080", "IE"
 
-	//ip, flag := "172.83.40.219", "CA"
+	// ProxySSL
+	//protocol, ip, port, flag := "https", "172.83.40.219", "89", "CA"
+	//protocol, ip, port, flag := "https", "194.99.105.100", "89", "PL"
+	//protocol, ip, port, flag := "https", "82.102.20.236", "89", "DK"
+	//protocol, ip, port, flag := "https", "82.102.19.137", "89", "BE"
+	//protocol, ip, port, flag := "https", "185.206.225.196", "89", "NO"
+	//protocol, ip, port, flag := "https", "185.189.114.28", "89", "HU"
+	//protocol, ip, port, flag := "https", "185.245.87.59", "89", "US"
+	//protocol, ip, port, flag := "https", "185.216.34.100", "89", "AT"
+	//protocol, ip, port, flag := "https", "81.92.202.11", "89", "GB"
+	//protocol, ip, port, flag := "https", "89.238.186.244", "89", "CZ"
+	protocol, ip, port, flag := "https", "82.102.18.252", "89", "FR"
 
-	_ = flag
-	//urlData := "http://eth0.me"
-	urlData := "http://4000.99.adscompass.ru/" + flag
-
-	addrNordVPN := fmt.Sprintf("socks5://%s:%s@%s:%s", user, password, ip, port)
-	//addrNordVPN := fmt.Sprintf("udp://%s:%s@%s:%s", user, password, ip, port)
-
+	addrNordVPN := fmt.Sprintf("%s://%s:%s@%s:%s", protocol, user, password, ip, port)
 	urlAddrNordVPN, err := url.Parse(addrNordVPN)
 	if err != nil {
 		log.Println(err)
@@ -54,7 +56,8 @@ func serverNordVPN() {
 	log.Println("urlAddrNordVPN =", urlAddrNordVPN)
 
 	transport := &http.Transport{
-		Proxy: http.ProxyURL(urlAddrNordVPN),
+		Proxy:           http.ProxyURL(urlAddrNordVPN),
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 	}
 
 	//adding the Transport object to the http Client
@@ -64,6 +67,8 @@ func serverNordVPN() {
 	}
 
 	//generating the HTTP GET request
+	//urlData := "http://eth0.me"
+	urlData := "http://4000.99.adscompass.ru/" + flag
 
 	request, err := http.NewRequest("GET", urlData, nil)
 	if err != nil {
@@ -89,38 +94,4 @@ func serverNordVPN() {
 	log.Println(string(data))
 
 	log.Println("Done...")
-}
-
-// standart
-func getURL() {
-	//url := "http://ya.ru"
-	url := "https://poker-iv.herokuapp.com"
-	//url := "http://apta.fun:2099"
-
-	fmt.Println("url:", url)
-	resp, err := http.Get(url)
-	if err != nil {
-		fmt.Println("error:", err.Error())
-		return
-	}
-	defer resp.Body.Close()
-
-	fmt.Println("StatusCode: ", resp.StatusCode)
-	fmt.Println("Done...")
-}
-
-func readParams(resp *http.Response) {
-
-}
-
-func readBody(resp *http.Response) {
-	fmt.Println("Body:")
-	for {
-		bs := make([]byte, 1014)
-		n, err := resp.Body.Read(bs)
-		fmt.Println(string(bs[:n]))
-		if n == 0 || err != nil {
-			break
-		}
-	}
 }
