@@ -52,8 +52,9 @@ func main() {
 		Key:      "adIPS2V8TcN8W3EierJW",
 		Secret:   "f_F21HW-adAsYoAxAhecxHMdViLU2xjC4_DOKHoH",
 		Endpoint: "https://message-queue.api.cloud.yandex.net",
-		URL:      "https://message-queue.api.cloud.yandex.net/b1g8fp34kitmv2q6kesr/dj6000000001qan706ht/pusher-test",
-		Region:   "ru-central1",
+		//URL:      "https://message-queue.api.cloud.yandex.net/b1g8fp34kitmv2q6kesr/dj6000000001qan706ht/pusher-test",
+		URL:    "https://message-queue.api.cloud.yandex.net/b1g8fp34kitmv2q6kesr/dj6000000001uq3i06ht/test",
+		Region: "ru-central1",
 	}
 
 	defaultMaxNumberOfMessages := int64(10)

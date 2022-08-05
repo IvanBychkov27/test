@@ -35,6 +35,7 @@ func main() {
 
 	c := color.New(color.FgCyan)
 	c.Println("Prints cyan text")
+	c.Printf("PRINT\n")
 
 	c.DisableColor()
 	c.Println("This is printed without any color")

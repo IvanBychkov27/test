@@ -56,8 +56,10 @@ func main() {
 	arrayOk := true
 	if arrayOk {
 		var data []Collector
-		array := []int{2, 6, 30, 33}
-		query := `SELECT * FROM collector01 WHERE user_id = ANY($1) AND id != 163`
+		//array := []int{2, 6, 30, 33}
+		array := []string{"test key", "pgx key"}
+		//query := `SELECT * FROM collector01 WHERE user_id = ANY($1) AND id != 163`
+		query := `SELECT * FROM collector01 WHERE key = ANY($1)`
 		data, err = readDB_WhereArray(db, query, array) // читаем базу данных
 		chk(err)
 		printCar(data) // печать информации полученной из БД
@@ -137,7 +139,7 @@ func readDB(db *pgx.Conn, query string) ([]Collector, error) {
 }
 
 // чтение данных из БД с выбором из массива
-func readDB_WhereArray(db *pgx.Conn, query string, arr []int) ([]Collector, error) {
+func readDB_WhereArray(db *pgx.Conn, query string, arr []string) ([]Collector, error) {
 	rows, err := db.Query(context.Background(), query, arr)
 	if err != nil {
 		return nil, err
