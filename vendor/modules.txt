@@ -10,6 +10,8 @@ github.com/ClickHouse/clickhouse-go/lib/lz4
 github.com/ClickHouse/clickhouse-go/lib/protocol
 github.com/ClickHouse/clickhouse-go/lib/types
 github.com/ClickHouse/clickhouse-go/lib/writebuffer
+# github.com/andybalholm/brotli v1.0.4
+github.com/andybalholm/brotli
 # github.com/arl/statsviz v0.4.0
 ## explicit
 github.com/arl/statsviz
@@ -109,6 +111,10 @@ github.com/jackc/pgx/v4
 github.com/jackc/pgx/v4/internal/sanitize
 # github.com/jmespath/go-jmespath v0.0.0-20180206201540-c2b33e8439af
 github.com/jmespath/go-jmespath
+# github.com/klauspost/compress v1.15.9
+github.com/klauspost/compress/flate
+github.com/klauspost/compress/gzip
+github.com/klauspost/compress/zlib
 # github.com/lib/pq v1.9.0
 ## explicit
 github.com/lib/pq
@@ -143,6 +149,13 @@ github.com/stretchr/testify/assert
 # github.com/tarantool/go-tarantool v0.0.0-20201220111423-77ce7d9a407a
 ## explicit
 github.com/tarantool/go-tarantool
+# github.com/valyala/bytebufferpool v1.0.0
+github.com/valyala/bytebufferpool
+# github.com/valyala/fasthttp v1.41.0
+## explicit
+github.com/valyala/fasthttp
+github.com/valyala/fasthttp/fasthttputil
+github.com/valyala/fasthttp/stackless
 # github.com/yourbasic/bit v0.0.0-20180313074424-45a4409f4082
 ## explicit
 github.com/yourbasic/bit
@@ -167,7 +180,7 @@ go.uber.org/zap/internal/bufferpool
 go.uber.org/zap/internal/color
 go.uber.org/zap/internal/exit
 go.uber.org/zap/zapcore
-# golang.org/x/crypto v0.0.0-20210513164829-c07d793c2f9a
+# golang.org/x/crypto v0.0.0-20220214200702-86341886e292
 ## explicit
 golang.org/x/crypto/hkdf
 golang.org/x/crypto/pbkdf2
@@ -179,8 +192,7 @@ golang.org/x/image/math/fixed
 # golang.org/x/lint v0.0.0-20201208152925-83fdc39ff7b5
 golang.org/x/lint
 golang.org/x/lint/golint
-# golang.org/x/net v0.0.0-20210510120150-4163338589ed
-## explicit
+# golang.org/x/net v0.0.0-20220906165146-f3363e06e74c
 golang.org/x/net/bpf
 golang.org/x/net/context
 golang.org/x/net/http/httpguts
@@ -189,12 +201,11 @@ golang.org/x/net/http2/hpack
 golang.org/x/net/idna
 golang.org/x/net/internal/timeseries
 golang.org/x/net/trace
-# golang.org/x/sys v0.0.0-20210514084401-e8d321eab015
-## explicit
+# golang.org/x/sys v0.0.0-20220728004956-3c1f35247d10
 golang.org/x/sys/internal/unsafeheader
 golang.org/x/sys/unix
 golang.org/x/sys/windows
-# golang.org/x/text v0.3.6
+# golang.org/x/text v0.3.7
 golang.org/x/text/cases
 golang.org/x/text/internal
 golang.org/x/text/internal/language
